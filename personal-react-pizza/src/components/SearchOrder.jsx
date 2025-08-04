@@ -14,7 +14,7 @@ function SearchOrder() {
               ? "searching order..."
               : "Search order #"
           }
-          className="px-9 py-2 rounded-full bg-yellow-100 placeholder:text-stone-400 text-gray-700 focus:outline-none focus:ring-yellow focus:ring-opacity-50"
+          className="px-9 py-2 rounded-full bg-yellow-100 placeholder:text-stone-400 text-gray-700 focus:outline-none  focus:px-12 transition-all focus:border-amber-500 focus:ring-4 focus:ring-amber-400 focus:ring-opacity-50"
         />
       </Form>
     </div>

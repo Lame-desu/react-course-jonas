@@ -1,17 +1,12 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { calculateTotalPrice } from "../helper";
 
 function CartFooter() {
   const cart = useSelector((state) => state.cart.items);
   const cartData = Object.values(cart);
+
   const numberOfPizzas = cartData.length;
-  function calculateTotalPrice(cartData) {
-    const totalPrice = cartData.reduce((prev, curr) => {
-      prev += curr.unitPrice * curr.qty;
-      return prev;
-    }, 0);
-    return totalPrice;
-  }
 
   if (numberOfPizzas <= 0) {
     return;

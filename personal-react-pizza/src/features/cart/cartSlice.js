@@ -11,7 +11,7 @@ const cartReducer = createSlice({
     addToCart: (state, action) => {
       state.items = {
         ...state.items,
-        [action.payload.id.id]: { ...action.payload.id, qty: 1 },
+        [action.payload.pizza.id]: { ...action.payload.pizza, qty: 1 },
       };
     },
     increase: (state, action) => {
@@ -48,5 +48,7 @@ const cartReducer = createSlice({
 });
 export const { addToCart, increase, decrease, deleteItem, clearCart } =
   cartReducer.actions;
+
+export const getCartItems = (state) => state.cart.items;
 
 export default cartReducer.reducer;

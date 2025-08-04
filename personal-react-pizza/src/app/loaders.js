@@ -6,3 +6,13 @@ export const fetchMenu = async () => {
   console.log(data);
   return data.data;
 };
+
+export async function fetchOrder({ params }) {
+  const { id } = params;
+  const res = await fetch(`${API_URL}/order/${id}`);
+  if (!res.ok) {
+    throw new Error("Error while fetching order");
+  }
+  const { data } = await res.json();
+  return data;
+}

@@ -4,10 +4,11 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setName as dispatchName } from "../features/user/userSlice";
-
+import { getName } from "../features/user/userSlice";
+import Button from "../components/UI/Button";
 export default function Home() {
   const dispatch = useDispatch();
-  const userName = useSelector((state) => state.user.name);
+  const userName = useSelector(getName);
   const [name, setName] = useState("");
   const navigate = useNavigate();
 

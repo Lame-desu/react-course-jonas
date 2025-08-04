@@ -1,11 +1,7 @@
-import { Link, useRouteLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  increase,
-  decrease,
-  deleteItem,
-  clearCart,
-} from "../features/cart/cartSlice";
+import { clearCart } from "../features/cart/cartSlice";
+import CartItem from "../components/CartItem";
 
 function Cart() {
   const userName = useSelector((state) => state.user.name);
@@ -14,27 +10,15 @@ function Cart() {
 
   const dispatch = useDispatch();
 
-  function calculateTotalPrice(unitPrice, quantity) {
-    return unitPrice * quantity;
-  }
-
-  function handleChange(type, id = null) {
-    switch (type) {
-      case "increase":
-        dispatch(increase({ id }));
-        break;
-      case "decrease":
-        dispatch(decrease({ id }));
-        break;
-      case "delete":
-        dispatch(deleteItem({ id }));
-        break;
-      case "clearCart":
-        dispatch(clearCart());
-        break;
-      default:
-        return;
-    }
+  if (cartItemsArray.length <= 0) {
+    return (
+      <div className="flex flex-col gap-11 justify-center max-w-3xl mx-auto">
+        <Link className="text-blue-600  pt-9" to="/menu">
+          &larr; Back to menu
+        </Link>
+        <p>Your cart is still empty. Start adding some pizzas :)</p>
+      </div>
+    );
   }
 
   return (
@@ -45,50 +29,19 @@ function Cart() {
       <h1 className="text-xl">{`Your cart, ${userName}`}</h1>
       <ul className="space-y-6 ">
         {cartItemsArray.map((item) => {
-          const { id, name, qty, unitPrice } = item;
-          return (
-            <li
-              key={id}
-              className="flex justify-between items-center border-b border-b-gray-200"
-            >
-              <div>{`${qty}x ${name}`}</div>
-              <div className="flex gap-7">
-                <div>{`€${calculateTotalPrice(unitPrice, qty).toFixed(2)}`}</div>
-                <div className="flex gap-4 items-center">
-                  <button
-                    onClick={() => handleChange("decrease", id)}
-                    className="bg-amber-300 px-4 py-1 rounded-full hover:bg-amber-200"
-                  >
-                    -
-                  </button>
-                  <span>{qty}</span>
-                  <button
-                    onClick={() => handleChange("increase", id)}
-                    className="bg-amber-300 px-4 py-1 rounded-full hover:bg-amber-200"
-                  >
-                    +
-                  </button>
-                </div>
-                <button
-                  onClick={() => handleChange("delete", id)}
-                  className="bg-amber-300 px-4 py-1 rounded-full hover:bg-amber-200"
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          );
+          return <CartItem key={item.id} item={item} />;
         })}
       </ul>
       <div className="flex gap-6 items-center justify-start">
         <Link
-          to="/orderNew"
+          to="/order/new"
           className="bg-amber-300 px-4 py-3 rounded-full hover:bg-amber-200"
         >
           Order Pizzas
         </Link>
+
         <button
-          onClick={() => handleChange("clearCart")}
+          onClick={() => dispatch(clearCart())}
           className="px-4 py-3 rounded-full  border-2 border-neutral-300 hover:bg-gray-400"
         >
           Clear Cart
